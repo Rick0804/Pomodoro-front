@@ -16,4 +16,9 @@ export default {
     </div>
 </template>
 
-<style></style>
+<style>
+#pomodoro {
+    display: flex;
+    justify-content: center;
+}
+</style>
