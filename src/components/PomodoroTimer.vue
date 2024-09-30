@@ -18,7 +18,7 @@ export default {
     methods: {
         cronometer(timer) {
             this.timeInSeconds = timer * 60000
-            this.timer = setInterval(() => {
+            this.timer = setInterval(() => {  
                 console.log(this.timeInSeconds)
                 let time = new Date(this.timeInSeconds);
                 this.minute = time.getMinutes();
@@ -28,21 +28,30 @@ export default {
                 this.timeInSeconds -= 1000
             }, 1000)
         },
+        pausar(){
+            console.log("aqui")
+            setTimeout(() => {
+                clearInterval(this.timer)
+                console.log("Parou")
+            }, 0)
+        },
+        
+        setMinute(minute){
+            this.minute = minute * 60000
+        },
+
         status() {
             this.statusTimer = !this.statusTimer;
             if (this.statusTimer) {
                 this.statusPomo = true;
             } else {
                 this.statusPomo = false;
+                console.log("timer vai parar")
             }
         },
         pular() {
-            this.cronometer(5);
-            setTimeout(() => {
-                clearInterval(this.time)
-            }, 0)
-            this.statusTimer = false;
-            this.statusPomo = false;
+            this.pausar();
+            this.minute = 5;
         }
     },
     watch: {
@@ -52,13 +61,9 @@ export default {
                if(this.timeInSeconds > 1000) this.timeInSeconds /= 60000
                 this.cronometer(this.timeInSeconds)
             } else {
-                console.log("aqui")
-                setTimeout(() => {
-                    clearInterval(this.timer)
-                    console.log("Parou")
-                }, 0)
+                this.pausar()
             }
-        }
+        },
     }
 }
 </script>
@@ -74,7 +79,7 @@ export default {
                     <p>{{ minute < 10 ? '0' + minute : minute }}:{{ second < 10 ? '0' + second : second }}</p>
                 </div>
                 <div v-else>
-                    <p>00:00</p>
+                    <p>30:00</p>
                 </div>
             </div>
             <div class="status-timer">
