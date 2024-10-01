@@ -49,7 +49,6 @@ export default {
             }
         },
         pular() {
-            this.pausar()
             if(this.statusTimer){
                 console.log("entrou pular: true")
                 this.minute = 5;
@@ -61,6 +60,7 @@ export default {
                 this.second = 0;
             }
             this.statusTimer = !this.statusTimer;
+            this.statusPomo = !this.statusPomo;
         }
     },
     watch: {
