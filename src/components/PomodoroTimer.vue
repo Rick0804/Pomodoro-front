@@ -3,11 +3,11 @@ export default {
     nome: 'PomodoroTimer',
     data() {
         return {
-            timeInSeconds: null,
+            timeInSeconds: 0,
             statusTimer: false,
             statusPomo: false,
-            minute: null,
-            second: null,
+            minute: 30,
+            second: 0,
             timer: null,
         }
         /*
@@ -16,16 +16,16 @@ export default {
         */
     },
     methods: {
-        cronometer(timer) {
-            this.timeInSeconds = timer * 60000
+        cronometer() {
+            this.timeInSeconds = (this.minute * 60000) + (this.second * 1000)
             this.timer = setInterval(() => {  
                 console.log(this.timeInSeconds)
+                this.timeInSeconds -= 1000
                 let time = new Date(this.timeInSeconds);
                 this.minute = time.getMinutes();
                 this.second = time.getSeconds();
                 console.log(this.second)
                 console.log(time)
-                this.timeInSeconds -= 1000
             }, 1000)
         },
         pausar(){
@@ -46,19 +46,27 @@ export default {
                 this.statusPomo = true;
             } else {
                 this.statusPomo = false;
-                console.log("timer vai parar")
             }
         },
         pular() {
-            this.pausar();
-            this.minute = 5;
+            this.pausar()
+            if(this.statusTimer){
+                console.log("entrou pular: true")
+                this.minute = 5;
+                this.second = 0;  
+            } else {
+                console.log("entrou pular: falso")
+                this.minute = 30;
+                console.log(this.minute)
+                this.second = 0;
+            }
+            this.statusTimer = !this.statusTimer;
         }
     },
     watch: {
         statusTimer() {
             if (this.statusTimer) {
-               if(this.timeInSeconds === null) this.timeInSeconds = 30;
-               if(this.timeInSeconds > 1000) this.timeInSeconds /= 60000
+                if(this.timeInSeconds > 1000) this.timeInSeconds /= 60000
                 this.cronometer(this.timeInSeconds)
             } else {
                 this.pausar()
@@ -83,8 +91,8 @@ export default {
                 </div>
             </div>
             <div class="status-timer">
-                <button @click="status">{{ !this.statusTimer ? 'iniciar' : 'parar' }}</button>
-                <button v-if="statusPomo" @click="pular">Pular</button>
+                <button @click="status">{{ !this.statusTimer ? 'INICIAR' : 'PARAR' }}</button>
+                <button v-if="statusPomo" @click="pular">PULAR</button>
             </div>
         </div>
     </section>
@@ -114,5 +122,9 @@ export default {
 
 h2 {
     color: white;
+}
+
+button {
+    
 }
 </style>
