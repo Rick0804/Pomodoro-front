@@ -51,8 +51,8 @@ export default {
                 this.minute = 0;
                 this.second = 15;  
             } else {
-                this.minute = 30;
-                this.second = 0;
+                this.minute = 0;
+                this.second = 10;
             }
             this.statusTimer = !this.statusTimer;
             this.statusPomo = !this.statusPomo;
@@ -73,7 +73,7 @@ export default {
 <template>
     <section class="pomodoro-timer">
         <div class="title">
-            <h2>POMODORO</h2>
+            <h2 >{{!this.statusBreak ? 'POMODORO' : 'BREAK'}}</h2>
         </div>
         <div class="timer-manager">
             <div class="timer">
