@@ -1,6 +1,11 @@
 <script>
+import Options from './Options.vue'
+
 export default {
-    name: 'Header'
+    name: 'Header',
+    components: {
+        Options,
+    }
 }
 </script>
 
@@ -9,11 +14,16 @@ export default {
         <div class="elements">
             <h1>Pomodoro</h1>
             <nav>
-                <button class="opcao">Opções</button>
+                <button @click="this.$emit('changeOptions')" class="opcao">Opções</button>
                 <button class="opcao">Notas</button>
+                
             </nav>
         </div>
     </header>
+    <div v-if="this.opcoes">
+        <Options />
+
+    </div>
 </template>
 
 <style>
