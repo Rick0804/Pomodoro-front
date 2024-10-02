@@ -6,8 +6,9 @@ export default {
             timeInSeconds: 0,
             statusTimer: false,
             statusPomo: false,
-            minute: 30,
-            second: 0,
+            statusBreak: false,
+            minute: 0,
+            second: 10,
             timer: null,
         }
         /*
@@ -24,44 +25,38 @@ export default {
                 let time = new Date(this.timeInSeconds);
                 this.minute = time.getMinutes();
                 this.second = time.getSeconds();
-                console.log(this.second)
-                console.log(time)
+                if(this.second === 0 && this.minute === 0){
+                    this.changeState()
+                }
             }, 1000)
         },
         pausar(){
-            console.log("aqui")
             setTimeout(() => {
                 clearInterval(this.timer)
-                console.log("Parou")
             }, 0)
         },
-        
         setMinute(minute){
             this.minute = minute * 60000
         },
-
-        status() {
-            this.statusTimer = !this.statusTimer;
-            if (this.statusTimer) {
-                this.statusPomo = true;
-            } else {
-                this.statusPomo = false;
-            }
+        setSecond(second){
+            this.second = second * 1000
         },
-        pular() {
-            if(this.statusTimer){
-                console.log("entrou pular: true")
-                this.minute = 5;
-                this.second = 0;  
+        statusCron() {
+            this.statusTimer = !this.statusTimer;
+            this.statusTimer ? this.statusPomo = true : this.statusPomo = false
+        },
+        changeState() {
+            this.statusBreak = !this.statusBreak;
+            if(this.statusBreak){
+                this.minute = 0;
+                this.second = 15;  
             } else {
-                console.log("entrou pular: falso")
                 this.minute = 30;
-                console.log(this.minute)
                 this.second = 0;
             }
             this.statusTimer = !this.statusTimer;
             this.statusPomo = !this.statusPomo;
-        }
+        },
     },
     watch: {
         statusTimer() {
@@ -91,8 +86,8 @@ export default {
                 </div>
             </div>
             <div class="status-timer">
-                <button @click="status">{{ !this.statusTimer ? 'INICIAR' : 'PARAR' }}</button>
-                <button v-if="statusPomo" @click="pular">PULAR</button>
+                <button @click="statusCron">{{ !this.statusTimer ? 'INICIAR' : 'PARAR' }}</button>
+                <button v-if="statusPomo" @click="changeState">PULAR</button>
             </div>
         </div>
     </section>
