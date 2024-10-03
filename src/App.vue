@@ -11,6 +11,8 @@ export default {
   data (){
     return {
       showOptions: false,
+      minute: 30,
+      second: 0,
     }
   },
   methods: {
