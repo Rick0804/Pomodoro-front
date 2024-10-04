@@ -33,7 +33,7 @@ export default {
   <Header @changeOptions="changeOptions"/>
   <HomePage />
   <div v-if="showOptions" class="opcoes">
-    <Options  @changeOptions="changeOptions" />
+    <Options @changeOptions="changeOptions" />
   </div>
 
 </template>
