@@ -1,14 +1,26 @@
 <script>
+import { toRefs } from 'vue';
+import { timers } from '../store/store.js';
 export default {
-    nome: 'PomodoroTimer',
+   nome: 'PomodoroTimer',
+   setup(){
+        const timer = timers();
+        const {secondP, minuteP, minuteB, secondB, statusTimer} = toRefs(timer)
+        return {
+            secondP,
+            minuteP,
+            secondB,
+            minuteB,
+            statusTimer
+        }
+    },
     data() {
         return {
             timeInSeconds: 0,
-            statusTimer: false,
             statusPomo: false,
             statusBreak: false,
-            minute: 0,
-            second: 10,
+            minute: this.minuteP,
+            second: this.secondP,
             timer: null,
         }
         /*
@@ -48,11 +60,11 @@ export default {
         changeState() {
             this.statusBreak = !this.statusBreak;
             if(this.statusBreak){
-                this.minute = 0;
-                this.second = 15;  
+                this.minute = this.minuteB;
+                this.second = this.secondB;
             } else {
-                this.minute = 0;
-                this.second = 10;
+                this.minute = this.minuteP;
+                this.second = this.secondP;  
             }
             this.statusTimer = !this.statusTimer;
             this.statusPomo = !this.statusPomo;
@@ -67,6 +79,20 @@ export default {
                 this.pausar()
             }
         },
+        minuteP(){
+            if(!this.statusBreak) this.minute = this.minuteP;  
+        },
+        secondP(){
+            if(!this.statusBreak) this.second = this.secondP;
+        },
+        minuteB(){
+           if (this.statusBreak) this.minute = this.minuteB;  
+        },
+        secondB(){
+           if (this.statusBreak) this.second = this.secondB;
+        },
+        
+
     }
 }
 </script>
@@ -87,7 +113,7 @@ export default {
             </div>
             <div class="status-timer">
                 <button @click="statusCron">{{ !this.statusTimer ? 'INICIAR' : 'PARAR' }}</button>
-                <button v-if="statusPomo" @click="changeState">PULAR</button>
+                <button v-if="statusTimer" @click="changeState">PULAR</button>
             </div>
         </div>
     </section>

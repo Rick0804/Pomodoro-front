@@ -1,8 +1,17 @@
 <script>
+import { timers } from './store/store';
+import { toRefs } from 'vue';
 import Header from './components/Header.vue';
 import HomePage from './components/HomePage.vue';
 import Options from './components/Options.vue';
 export default {
+  setup(){
+        const timer = timers();
+        const {statusTimer} = toRefs(timer)
+        return {
+            statusTimer
+        }
+  },
   components: {
     Header,
     HomePage,
@@ -17,26 +26,39 @@ export default {
   },
   methods: {
     changeOptions(){
-      console.log("teste options")
-      this.showOptions = !this.showOptions
+      if(!this.statusTimer){
+        !this.showOptions ? this.showOptions = true : this.showOptions = false;
+      } else {
+        !this.showOptions ? this.showOptions = true : this.showOptions = false;
+        this.statusTimer = !this.statusTimer;
+      }
     }
   },
   watch: {
-    showOptions(){
-      console.log(this.showOptions)
+    statusTimer(){
+      if(this.statusTimer){
+        if(this.showOptions){
+          this.showOptions = false
+        }
+      } 
     }
   }
+  
 }
 </script>
 
 <template>
-  <Header @changeOptions="changeOptions"/>
-  <HomePage />
-  <div v-if="showOptions" class="opcoes">
+  <div class="teste">
+    <Header @changeOptions="changeOptions"/>
+    <HomePage />
+    <div v-if="showOptions" class="opcoes">
     <Options @changeOptions="changeOptions" />
   </div>
+  </div>
+  
 
 </template>
 
 <style>
+
 </style>

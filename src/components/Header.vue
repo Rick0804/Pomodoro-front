@@ -1,8 +1,16 @@
 <script>
 import Options from './Options.vue'
-
+import { toRefs } from 'vue';
+import { timers } from '../store/store';
 export default {
     name: 'Header',
+    setup(){
+        const timer = timers();
+        const {statusTimer} = toRefs(timer)
+        return {
+            statusTimer
+        }
+    },
     components: {
         Options,
     }
@@ -20,14 +28,9 @@ export default {
             </nav>
         </div>
     </header>
-    <div v-if="this.opcoes">
-        <Options />
-
-    </div>
 </template>
 
 <style>
-/* tema escuro */
 
 .elements {
     display: flex;
