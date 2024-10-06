@@ -1,14 +1,27 @@
 <script>
+import { toRefs } from 'vue';
+import { timers } from '../store/store.js';
 export default {
-    nome: 'PomodoroTimer',
+   nome: 'PomodoroTimer',
+   setup(){
+        const timer = timers();
+        const {secondP, minuteP, minuteB, secondB, statusTimer} = toRefs(timer)
+        return {
+            secondP,
+            minuteP,
+            secondB,
+            minuteB,
+            statusTimer
+        }
+    },
     data() {
         return {
             timeInSeconds: 0,
             statusTimer: false,
             statusPomo: false,
             statusBreak: false,
-            minute: 0,
-            second: 10,
+            minute: this.minuteP,
+            second: this.secondP,
             timer: null,
         }
         /*
@@ -48,11 +61,11 @@ export default {
         changeState() {
             this.statusBreak = !this.statusBreak;
             if(this.statusBreak){
-                this.minute = 0;
-                this.second = 15;  
+                this.minute = this.minuteB;
+                this.second = this.secondB;
             } else {
-                this.minute = 0;
-                this.second = 10;
+                this.minute = this.minuteP;
+                this.second = this.secondP;  
             }
             this.statusTimer = !this.statusTimer;
             this.statusPomo = !this.statusPomo;
@@ -67,6 +80,20 @@ export default {
                 this.pausar()
             }
         },
+        minuteP(){
+            if(!this.statusBreak) this.minute = this.minuteP;  
+        },
+        secondP(){
+            if(!this.statusBreak) this.second = this.secondP;
+        },
+        minuteB(){
+           if (this.statusBreak) this.minute = this.minuteB;  
+        },
+        secondB(){
+           if (this.statusBreak) this.second = this.secondB;
+        },
+        
+
     }
 }
 </script>
@@ -101,18 +128,34 @@ export default {
     display: flex;
     flex-direction: column;
     align-items: center;
+    margin-top: 44px;
 
 }
 
 .title {
     width: 408px;
     height: 68.43px;
+    margin-top: 20px;
+    margin-bottom: 40px;
     background: #1B1A1A;
     border-radius: 20px;
     display: flex;
     align-items: center;
     justify-content: center;
+}
 
+.status-timer {
+    margin: 0 auto;
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+}
+
+.timer p {
+    font-size: 120px;
+    font-weight: 500;
+    line-height: 1;
+    margin-bottom: 33px;
 }
 
 h2 {
@@ -120,6 +163,10 @@ h2 {
 }
 
 button {
-    
+    background: #1B1A1A;
+    box-shadow: 4px 4px 4px rgba(0, 0, 0, 0.25);
+    border-radius: 20px;
+    color: white;
+    padding: 5px 30px;
 }
 </style>
