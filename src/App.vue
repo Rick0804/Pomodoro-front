@@ -51,9 +51,9 @@ export default {
   <div class="teste">
     <Header @changeOptions="changeOptions"/>
     <HomePage />
-    <div v-if="showOptions" class="opcoes">
-    <Options @changeOptions="changeOptions" />
-  </div>
+    <div v-if="showOptions" class="options">
+      <Options @changeOptions="changeOptions" />
+    </div>
   </div>
   
 

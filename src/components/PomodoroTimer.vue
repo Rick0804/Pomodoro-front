@@ -17,6 +17,7 @@ export default {
     data() {
         return {
             timeInSeconds: 0,
+            statusTimer: false,
             statusPomo: false,
             statusBreak: false,
             minute: this.minuteP,
@@ -113,7 +114,7 @@ export default {
             </div>
             <div class="status-timer">
                 <button @click="statusCron">{{ !this.statusTimer ? 'INICIAR' : 'PARAR' }}</button>
-                <button v-if="statusTimer" @click="changeState">PULAR</button>
+                <button v-if="statusPomo" @click="changeState">PULAR</button>
             </div>
         </div>
     </section>
@@ -127,18 +128,34 @@ export default {
     display: flex;
     flex-direction: column;
     align-items: center;
+    margin-top: 44px;
 
 }
 
 .title {
     width: 408px;
     height: 68.43px;
+    margin-top: 20px;
+    margin-bottom: 40px;
     background: #1B1A1A;
     border-radius: 20px;
     display: flex;
     align-items: center;
     justify-content: center;
+}
 
+.status-timer {
+    margin: 0 auto;
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+}
+
+.timer p {
+    font-size: 120px;
+    font-weight: 500;
+    line-height: 1;
+    margin-bottom: 33px;
 }
 
 h2 {
@@ -146,6 +163,10 @@ h2 {
 }
 
 button {
-    
+    background: #1B1A1A;
+    box-shadow: 4px 4px 4px rgba(0, 0, 0, 0.25);
+    border-radius: 20px;
+    color: white;
+    padding: 5px 30px;
 }
 </style>

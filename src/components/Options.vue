@@ -51,26 +51,75 @@ export default {
 </script>
 <template>
     <div class="opcoes">
-        <button @click="$emit('changeOptions')">X</button>
+        <div class="exit">
+            <button @click="$emit('changeOptions')">X</button>
+        </div>
         <form class="pomos" v-on:submit.prevent="setPomTimer">
+            <div class="title"><p>Pomodoro</p></div>
             <input type="number" placeholder="Defini Minutos" v-bind:value="NumberMinutePom">
             <input type="number" placeholder="Defini Segundos" v-bind:value="NumberSecondPom">
             <button>enviar</button>
         </form>
         <form class="break" v-on:submit.prevent="setBreakTimer">
+            <div class="title"><p>Descanço</p></div>
             <input type="number" placeholder="Defini Minutos" v-bind:value="NumberMinuteBreak">
             <input type="number" placeholder="Defini Segundos" v-bind:value="NumberSecondBreak">
             <button>enviar</button>
         </form>
     </div>
 </template>
-<style>
+<style scoped>
 
 .opcoes {
     width: 500px;
-    height: 84vh;
+    height: 50vh;
+    padding-top: 50px;
     background-color: white;
     position: absolute;
+    display: flex;
+    gap: 60px;
+    flex-direction: column;
+    border: #1B1A1A;
+    border-radius: 20px;
+    top: 48%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+.title {
+    color: white;
+    background-color: #1B1A1A;
+    padding: 11px 14px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 20px;
+}
+
+.opcoes input {
+    color: black;
+    outline: none;
+    border: black 1px solid;
+}
+
+.exit {
+    height: fit-content;
+    position: absolute;
+    right: 0;
+}
+
+.break, .pomos {
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    gap: 10px;
+}
+
+button {
+    background: #1B1A1A;
+    border-radius: 20px;
+    color: white;
+    padding: 5px 10px;
 }
 
 </style>
