@@ -51,9 +51,12 @@ export default {
 </script>
 <template>
     <div class="opcoes">
-        <div class="exit">
-            <button @click="$emit('changeOptions')">X</button>
-        </div>
+        <div class="title-options">
+            <p>Configurações</p>
+            <div class="exit">
+                <button @click="$emit('changeOptions')">X</button>
+            </div>
+        </div> 
         <form class="pomos" v-on:submit.prevent="setPomTimer">
             <div class="title"><p>Pomodoro</p></div>
             <input type="number" placeholder="Defini Minutos" v-bind:value="NumberMinutePom">
@@ -70,26 +73,47 @@ export default {
 </template>
 <style scoped>
 
+.exit button {
+    background: #1B1A1A;
+    border-radius: 20px;
+    color: white;
+    padding: 5px 10px;
+}
+
+.title-options {
+    padding: 11px 14px;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+}
+
+.title-options::after {
+    content: "";
+    display: block;
+    width: 100%;
+    height: 2px;
+    background-color: #cbcbcb;
+    margin-top: 10px;
+}
+
 .opcoes {
     width: 500px;
-    height: 50vh;
-    padding-top: 50px;
+    height: 68vh;
+    padding-bottom: 22px;
+    justify-content: space-around;
     background-color: white;
     position: absolute;
     display: flex;
-    gap: 60px;
     flex-direction: column;
     border: #1B1A1A;
     border-radius: 20px;
     top: 48%;
     left: 50%;
-    transform: translate(-50%, -50%);
-}
+    transform: translate(-50%, -50%);}
 
 .title {
     color: white;
     background-color: #1B1A1A;
-    padding: 11px 14px;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -105,7 +129,8 @@ export default {
 .exit {
     height: fit-content;
     position: absolute;
-    right: 0;
+    right: 18px;
+    top: 26px;
 }
 
 .break, .pomos {
@@ -120,6 +145,15 @@ button {
     border-radius: 20px;
     color: white;
     padding: 5px 10px;
+}
+
+.title {
+    padding: 15px 20px;
+    background: #1B1A1A;
+    border-radius: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
 </style>
