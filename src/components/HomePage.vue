@@ -1,9 +1,11 @@
 <script>
 import PomodoroTimer from './PomodoroTimer.vue';
+import TaskList from './TaskList.vue';
 export default {
     name: 'HomePage',
     components: {
-        PomodoroTimer
+        PomodoroTimer,
+        TaskList
     }
 }
 </script>
@@ -11,7 +13,7 @@ export default {
     <div>
         <section id="pomodoro">
             <PomodoroTimer />
-            
+            <TaskList />
         </section>
     </div>
 </template>
@@ -19,6 +21,7 @@ export default {
 <style>
 #pomodoro {
     display: flex;
-    justify-content: center;
+    justify-content: space-around;
+    align-items: center;
 }
 </style>

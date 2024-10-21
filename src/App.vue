@@ -1,6 +1,7 @@
 <script>
 import { timers } from './store/store';
 import { toRefs } from 'vue';
+import InputTask from './components/InputTask.vue';
 import Header from './components/Header.vue';
 import HomePage from './components/HomePage.vue';
 import Options from './components/Options.vue';
@@ -16,6 +17,7 @@ export default {
     Header,
     HomePage,
     Options,
+    InputTask
   },
   data (){
     return {
@@ -54,6 +56,7 @@ export default {
     <div v-if="showOptions" class="options">
       <Options @changeOptions="changeOptions" />
     </div>
+    <InputTask/>
   </div>
   
 
