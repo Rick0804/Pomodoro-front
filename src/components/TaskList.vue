@@ -1,44 +1,55 @@
 <script>
-import axios from 'axios';
+import { toRefs } from 'vue';
+import { api } from '../store/api';
 
 export default {
-    data (){
+    setup(){
+        const getList = api();
+        getList.getTasks()
+        const {listTask, deleteData, selectedTask} = toRefs(getList)
         return {
-            pomosList: null,
+            listTask,
+            deleteData,
+            selectedTask
         }
     },
-
     methods: {
-        async getTasks(){
-                const response = await axios.get('http://localhost:8000/api/pom/pomos-list');
-                this.pomosList = response.data;
+        apagarPomo(e){
+            this.deleteData(e.target.value)
+        },
+        taskSelected(id){
+            this.selectedTask = id;
         }
     },
-    mounted() {
-        this.getTasks()
-        setInterval(() => {
-            this.getTasks()
-        }, 5000)
+    
+    watch: {
+        selectedTask(){
+            console.log(this.selectedTask)
+        }
     }
-}
+} 
 </script>
 <template>
     <div class="task-list">
-        <div class="title">Lista de Tarefas</div>
+        <div class="upper">
+            <div class="title">Lista de Tarefas</div>
+            <button class="button-add">Adicionar Tarefa</button>
+        </div>
         <div class="lists">
             <ul class="list">
-                <li v-for="pomos in pomosList" class="pomo-task">
+                <li @click="taskSelected(pomos.id)" v-for="pomos in listTask" class="pomo-task" :class="pomos.id === selectedTask ? 'selectedTask' : null">
                     <div class="title-task">
                         <p>{{ pomos.Pomo }}</p>
                     </div> 
-                    <div class="description">
+                    <div v-if="pomos.descricao !== null" class="description">
                         <label for="">Descrição: </label>{{ pomos.descricao }} 
                     </div>
                     <div class="pomos-done">
                         <label for="">Pomos: </label>{{ pomos.Qntd_pomos_feitos }}/{{ pomos.Qntd_pomos }}
                     </div>
                     <div class="edita-pomos">
-                        <button>editar pomo</button>
+                        <button @click="editarPomo" v-bind:value="pomos.id">Editar pomo</button>
+                        <button @click="apagarPomo" v-bind:value="pomos.id">Apagar Pomo</button>
                     </div>
                 </li>
             </ul>
@@ -72,8 +83,18 @@ export default {
     width: 0;
 }
 
-.pomo-task {
+.button-add {
+    background: white;
+    border-radius: 20px;
+    color: #1B1A1A;
+    padding: 5px 10px;
+    text-align: center;
+    display: flex;
+    justify-content: center;
+}
 
+.selectedTask {
+    background-color: black;
 }
 
 </style>

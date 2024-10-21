@@ -7,6 +7,7 @@ export const timers = defineStore('timers', {
         minuteB: 10,
         secondB: 0,
         statusTimer: false,
+        
 
     }),
     actions: {
@@ -21,6 +22,7 @@ export const timers = defineStore('timers', {
         },
         setSecondB(value){
             this.secondB = value
-        }
-    }
+        },
+        
+    },
 })

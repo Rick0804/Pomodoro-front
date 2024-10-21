@@ -1,34 +1,40 @@
 <script>
-import axios from 'axios';
+import { api } from '@/store/api';
+import { ref, toRefs } from 'vue';
 export default {
-    data() {
+    setup(){
+        const addTask = api();
+        const {postData} = toRefs(addTask); 
+        const Pomo = ref('')
+        const descricao = ref('')
+        const Qntd_pomos = ref(1)
         return {
-            Pomo: '',
-            descricao: '',
-            Qntd_pomos: 0,
+            postData,
+            Pomo,
+            descricao,
+            Qntd_pomos,
         }
     },
     methods: {
-        async postData(){
+        postTask(){
             this.Qntd_pomos = Number(this.Qntd_pomos);
-            try{
-                await axios.post('http://localhost:8000/api/pom/send', {
-                Pomo: this.Pomo,
-                descricao: this.descricao,
-                Qntd_pomos: this.Qntd_pomos,
-            })     
-            } catch(e) {
-                console.log('erro: ', e);
-            }
-            
+            if(this.Qntd_pomos > 0 && this.Pomo.trim()){
+                this.postData(this.Pomo, this.descricao, this.Qntd_pomos);      
+            } 
+            this.clearInput()
+        },
+        clearInput(){
+            this.Pomo = '';
+            this.descricao = '';
+            this.Qntd_pomos = 1
         }
     }
 }
 </script>
 <template>
     <div class="forms">
-        <form v-on:submit.prevent="postData">
-            <input required placeholder="insira a tarefa" v-model="Pomo" type="text" name="" id="">
+        <form v-on:submit.prevent="postTask">
+            <input required placeholder="insira a tarefa" v-model="Pomo" type="text">
             <input placeholder="insira uma descrição para a tarefa" type="text" v-model="descricao" name="" id="">
             <input required type="number" name="" placeholder="quantidade de pomos" v-model="Qntd_pomos" id="">
             <button type="submit">enviar</button>
@@ -37,10 +43,23 @@ export default {
 </template>
 <style scoped>
 
+    .forms {
+       display: flex;
+       justify-content: flex-end;
+       
+       
+    }
+
     form {
+        padding: 20px;
+        right: 26px;
+        width: fit-content;
+        border-radius: 4px;
         display: flex;
+        background-color: white;
         flex-direction: column;
         gap: 10px;
+        outline: #838181 solid 1px;
     }
 
     form input {
@@ -49,5 +68,7 @@ export default {
         border: none;
         outline: none;
     }
+
+    
 
 </style>

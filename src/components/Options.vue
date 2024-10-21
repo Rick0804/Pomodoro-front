@@ -45,12 +45,14 @@ export default {
                 this.NumberMinuteBreak = '';
                 this.NumberSecondBreak = '';
             }
-        }
+        },
+
     }
 }
 </script>
 <template>
     <div class="opcoes">
+        
         <div class="title-options">
             <p>Configurações</p>
             <div class="exit">
@@ -77,6 +79,7 @@ export default {
     background: #1B1A1A;
     border-radius: 20px;
     color: white;
+    border: none;
     padding: 5px 10px;
 }
 
@@ -101,7 +104,7 @@ export default {
     height: 68vh;
     padding-bottom: 22px;
     justify-content: space-around;
-    background-color: white;
+    background-color: #dddddd;
     position: absolute;
     display: flex;
     flex-direction: column;
