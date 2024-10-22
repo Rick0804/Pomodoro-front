@@ -1,16 +1,16 @@
 <script>
-import { toRefs } from 'vue';
+import { nextTick, toRefs } from 'vue';
 import { api } from '../store/api';
 
 export default {
     setup(){
         const getList = api();
-        getList.getTasks()
-        const {listTask, deleteData, selectedTask} = toRefs(getList)
+        const {listTask, deleteData, selectedTask, getTasks} = toRefs(getList)
         return {
             listTask,
             deleteData,
-            selectedTask
+            selectedTask,
+            getTasks
         }
     },
     methods: {
@@ -22,14 +22,20 @@ export default {
         },
         taskSelected(id){
             this.selectedTask = id;
-        }
+        },
+        async firstResultSelectedTask(){
+            try {
+                this.selectedTask = this.listTask[0].id
+            } catch (e) {
+
+            }
+        },
     },
-    
-    watch: {
-        selectedTask(){
-            console.log(this.selectedTask)
-        }
-    },
+    mounted() {
+        nextTick(async () => {
+            await this.getTasks().then(() => this.firstResultSelectedTask())
+        })
+    }
 } 
 </script>
 <template>
@@ -42,7 +48,7 @@ export default {
             <ul class="list">
                 <li @click="taskSelected(pomos.id)" v-for="pomos in listTask" class="pomo-task" :class="pomos.id === selectedTask ? 'selectedTask' : null">
                     <div class="title-task">
-                        <p>{{ pomos.Pomo }}</p>
+                        <p>Pomo: {{ pomos.Pomo }}</p>
                     </div> 
                     <div v-if="pomos.descricao !== null" class="description">
                         <label for="">Descrição: </label>{{ pomos.descricao }} 

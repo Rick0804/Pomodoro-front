@@ -2,6 +2,7 @@
 import PomodoroTimer from './PomodoroTimer.vue';
 import InputTask from './InputTask.vue';
 import TaskList from './TaskList.vue';
+import UpdateTask from './UpdateTask.vue';
 import { ref } from 'vue'
 export default {
     name: 'HomePage',
@@ -13,13 +14,13 @@ export default {
     components: {
         PomodoroTimer,
         TaskList,
-        InputTask
+        InputTask,
+        UpdateTask
     },
     methods: {
         changeInputTask(){
             if(!this.statusTimer){
                 !this.showInputTask ? this.showInputTask = true : this.showInputTask = false;
-                console.log(this.showInputTask)
             } else {
                 !this.showInputTask ? this.showInputTask = true : this.showInputTask = false;
                 this.statusTimer = !this.statusTimer;
@@ -48,6 +49,7 @@ export default {
                 <InputTask @changeInputTask="changeInputTask" />
             </div>
         </section>
+        <UpdateTask />
     </div>
 </template>
 
