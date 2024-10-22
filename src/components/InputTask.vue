@@ -13,6 +13,7 @@ export default {
             Pomo,
             descricao,
             Qntd_pomos,
+            showInputTask: false
         }
     },
     methods: {
@@ -23,6 +24,7 @@ export default {
             } 
             this.clearInput()
         },
+        
         clearInput(){
             this.Pomo = '';
             this.descricao = '';
@@ -33,30 +35,43 @@ export default {
 </script>
 <template>
     <div class="forms">
-        <form v-on:submit.prevent="postTask">
-            <input required placeholder="insira a tarefa" v-model="Pomo" type="text">
-            <input placeholder="insira uma descrição para a tarefa" type="text" v-model="descricao" name="" id="">
-            <input required type="number" name="" placeholder="quantidade de pomos" v-model="Qntd_pomos" id="">
-            <button type="submit">enviar</button>
-        </form>
+        <div class="class-form">
+            <button class="exit" @click="$emit('changeInputTask')"><i class="png-exit fa-solid fa-x"></i></button>
+            <form v-on:submit.prevent="postTask">
+                <label for="tarefa">O que quer fazer?</label>
+                <input required placeholder="insira a tarefa" name="tarefa" v-model="Pomo" type="text">
+                <label for="descricao">Insira uma descrição</label>
+                <input placeholder="descrição (opcional)" name="descricao" type="text" v-model="descricao">
+                <label for="qntd-pomos">Quantos Pomos quer fazer?</label>
+                <input required type="number" name="qntd-pomos" placeholder="quantidade de pomos" v-model="Qntd_pomos">
+                <button type="submit">enviar</button>
+            </form>
+        </div>
     </div>
+    
 </template>
 <style scoped>
 
-    .forms {
-       display: flex;
-       justify-content: flex-end;
-       
-       
-    }
-
     form {
+       gap: 10px;
+    }
+    .exit {
+        width: fit-content;
+        background-color: transparent;
+        border: none;
+        cursor: pointer;
+    }
+    form {
+        display: flex;
+        flex-direction: column;
+    }
+    .class-form {
         padding: 20px;
         right: 26px;
         width: fit-content;
         border-radius: 4px;
         display: flex;
-        background-color: white;
+        background-color: #ececec;
         flex-direction: column;
         gap: 10px;
         outline: #838181 solid 1px;
@@ -68,7 +83,5 @@ export default {
         border: none;
         outline: none;
     }
-
-    
 
 </style>

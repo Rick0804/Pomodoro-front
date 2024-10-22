@@ -1,7 +1,6 @@
 <script>
 import { timers } from './store/store';
 import { toRefs } from 'vue';
-import InputTask from './components/InputTask.vue';
 import Header from './components/Header.vue';
 import HomePage from './components/HomePage.vue';
 import Options from './components/Options.vue';
@@ -10,14 +9,13 @@ export default {
         const timer = timers();
         const {statusTimer} = toRefs(timer)
         return {
-            statusTimer
+            statusTimer,
         }
   },
   components: {
     Header,
     HomePage,
     Options,
-    InputTask
   },
   data (){
     return {
@@ -35,6 +33,7 @@ export default {
         this.statusTimer = !this.statusTimer;
       }
     },
+    
     exitClick(e) {
       const externClick = this.$refs.opcoes;
       try {
@@ -65,9 +64,7 @@ export default {
     <HomePage />
     <div v-if="showOptions" ref="opcoes">
       <Options @changeOptions="changeOptions" /> 
-
     </div>
-    <InputTask/>
   </div>
   
 

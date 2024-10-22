@@ -15,7 +15,10 @@ export default {
     },
     methods: {
         apagarPomo(e){
-            this.deleteData(e.target.value)
+            const areYouSure = confirm("Deseja realmente deletar essa tarefa?");
+            if(areYouSure){
+                this.deleteData(e.target.value)
+            }
         },
         taskSelected(id){
             this.selectedTask = id;
@@ -26,14 +29,14 @@ export default {
         selectedTask(){
             console.log(this.selectedTask)
         }
-    }
+    },
 } 
 </script>
 <template>
     <div class="task-list">
         <div class="upper">
             <div class="title">Lista de Tarefas</div>
-            <button class="button-add">Adicionar Tarefa</button>
+            <button @click="$emit('changeInputTask')" class="button-add">Adicionar Tarefa</button>
         </div>
         <div class="lists">
             <ul class="list">
@@ -63,12 +66,15 @@ export default {
     text-align: right;
 }
 
+.pomo-task {
+    padding: 10px 20px;
+    border-radius: 20px;
+}
+
 .lists {
     background-color: white;
     width: 255px;
     height: 294px;
-    padding-left: 20px;
-    padding-top: 10px;
     border-radius: 20px;
     overflow-y: auto;
 }
@@ -94,7 +100,7 @@ export default {
 }
 
 .selectedTask {
-    background-color: black;
+    background-color: rgba(0, 0, 0, 0.158);
 }
 
 </style>

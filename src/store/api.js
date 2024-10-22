@@ -3,7 +3,7 @@ import axios from "axios";
 
 export const api = defineStore('api', {
     state: () => ({
-        listTask: [],
+        listTask: false,
         selectedTask: null 
     }),
     actions: {
