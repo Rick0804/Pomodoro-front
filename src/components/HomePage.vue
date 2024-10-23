@@ -8,7 +8,8 @@ export default {
     name: 'HomePage',
     setup(){
         return {
-            showInputTask: ref(false)
+            showInputTask: ref(false),
+            updateForm: ref(false),
         }
     },
     components: {
@@ -23,6 +24,15 @@ export default {
                 !this.showInputTask ? this.showInputTask = true : this.showInputTask = false;
             } else {
                 !this.showInputTask ? this.showInputTask = true : this.showInputTask = false;
+                this.statusTimer = !this.statusTimer;
+            }
+        },
+        changeInputTaskUpdate(){
+            console.log(this.updateForm)
+            if(!this.statusTimer){
+                !this.updateForm ? this.updateForm = true : this.updateForm = false;
+            } else {
+                !this.updateForm ? this.updateForm = true : this.updateForm = false;
                 this.statusTimer = !this.statusTimer;
             }
         },
@@ -44,12 +54,14 @@ export default {
     <div @click="exitClick">
         <section id="pomodoro">
             <PomodoroTimer />
-            <TaskList @changeInputTask="changeInputTask" />
+            <TaskList @changeInputTask="changeInputTask" @changeInputTaskUpdate="changeInputTaskUpdate" />
             <div ref="inputTasks" class="input-task" v-if="showInputTask">
-                <InputTask @changeInputTask="changeInputTask" />
+                <InputTask @changeInputTask="changeInputTask"/>
+            </div>
+            <div v-if="updateForm">
+                <UpdateTask @changeInputTaskUpdate="changeInputTaskUpdate"/>
             </div>
         </section>
-        <UpdateTask />
     </div>
 </template>
 

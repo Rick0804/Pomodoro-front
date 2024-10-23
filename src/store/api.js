@@ -21,9 +21,8 @@ export const api = defineStore('api', {
         },
         async search(id){
             try {
-                const response = await axios.get('http://localhost:8000/api/pomos/pomos-get-task/' + id)
-                console.log('asdfasdf ', response.data)
-                console.log(id);
+                const response = await axios.get('http://localhost:8000/api/pomos/pomos-search/' + id)
+                console.log(response.data.Object)
                 return response.data;
 
             } catch (e){
@@ -52,7 +51,7 @@ export const api = defineStore('api', {
                 console.error('erro: ' + e);
             }
         },
-        async updateData(Pomo = this.listTask[id].Pomo, descricao = this.listTask[id].descricao, Qntd_pomos = this.listTask[id].Qntd_pomos, Qntd_pomos_feitos = this.listTask[id].Qntd_pomos_feitos, id){
+        async updateData(Pomo, descricao, Qntd_pomos, Qntd_pomos_feitos, id){
             try {
                 await axios.put('http://localhost:8000/api/pomos/pomos-edit/' + id, {
                     Pomo,
@@ -60,8 +59,9 @@ export const api = defineStore('api', {
                     Qntd_pomos,
                     Qntd_pomos_feitos
                 })
+                await this.getTasks();
             } catch (e){
-
+                console.error("erro: " + e);
             }
         }
     }

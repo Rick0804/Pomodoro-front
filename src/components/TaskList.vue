@@ -27,9 +27,12 @@ export default {
             try {
                 this.selectedTask = this.listTask[0].id
             } catch (e) {
-
             }
         },
+        setSelectedTask(e){
+            this.selectedTask = e.target.value;
+            this.$emit('changeInputTaskUpdate')
+        }
     },
     mounted() {
         nextTick(async () => {
@@ -57,7 +60,7 @@ export default {
                         <label for="">Pomos: </label>{{ pomos.Qntd_pomos_feitos }}/{{ pomos.Qntd_pomos }}
                     </div>
                     <div class="edita-pomos">
-                        <button @click="editarPomo" v-bind:value="pomos.id">Editar pomo</button>
+                        <button @click="setSelectedTask" v-bind:value="pomos.id">Editar pomo</button>
                         <button @click="apagarPomo" v-bind:value="pomos.id">Apagar Pomo</button>
                     </div>
                 </li>
