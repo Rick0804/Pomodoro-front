@@ -49,7 +49,7 @@ export default {
         </div>
         <div class="lists">
             <ul class="list">
-                <li @click="taskSelected(pomos.id)" v-for="pomos in listTask" class="pomo-task" :class="pomos.id === selectedTask ? 'selectedTask' : null">
+                <li @click="taskSelected(pomos.id)" v-for="pomos in listTask" class="pomo-task" :class="pomos.id === selectedTask ? 'selectedTask' : null" v-bind:class="pomos.Qntd_pomos <= pomos.Qntd_pomos_feitos ? 'completed' : null">
                     <div class="title-task">
                         <p>Pomo: {{ pomos.Pomo }}</p>
                     </div> 
@@ -73,6 +73,18 @@ export default {
 .title {
     color: white;
     text-align: right;
+}
+
+.completed {
+    border-right: green solid 10px;
+}
+
+.upper{
+    display: flex;
+    flex-direction: column;
+    align-items: end;
+    gap: 10px;
+    margin-bottom: 10px;
 }
 
 .pomo-task {

@@ -58,14 +58,13 @@ export default {
             <div ref="inputTasks" class="input-task" v-if="showInputTask">
                 <InputTask @changeInputTask="changeInputTask"/>
             </div>
-            <div v-if="updateForm">
-                <UpdateTask @changeInputTaskUpdate="changeInputTaskUpdate"/>
-            </div>
+                <UpdateTask  v-if="updateForm" @changeInputTaskUpdate="changeInputTaskUpdate"/>
         </section>
     </div>
 </template>
 
 <style>
+
 #pomodoro {
     display: flex;
     justify-content: space-around;
@@ -75,4 +74,5 @@ export default {
 .input-task {
     position: absolute;
 }
+
 </style>

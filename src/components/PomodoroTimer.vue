@@ -3,12 +3,12 @@ import { nextTick, toRefs } from 'vue';
 import { timers } from '../store/store.js';
 import { api } from '@/store/api.js';
 export default {
-   nome: 'PomodoroTimer',
-   setup(){
+    nome: 'PomodoroTimer',
+    setup() {
         const timer = timers();
         const getApi = api();
-        const {updateData, selectedTask, search} = toRefs(getApi);
-        const {secondP, minuteP, minuteB, secondB, statusTimer} = toRefs(timer)
+        const { updateData, selectedTask, search } = toRefs(getApi);
+        const { secondP, minuteP, minuteB, secondB, statusTimer } = toRefs(timer)
         return {
             secondP,
             minuteP,
@@ -35,44 +35,41 @@ export default {
     methods: {
         cronometer() {
             this.timeInSeconds = (this.minute * 60000) + (this.second * 1000)
-            this.timer = setInterval(() => {  
+            this.timer = setInterval(() => {
                 console.log(this.timeInSeconds)
                 this.timeInSeconds -= 1000
                 let time = new Date(this.timeInSeconds);
                 this.minute = time.getMinutes();
                 this.second = time.getSeconds();
-                if(this.second === 0 && this.minute === 0){
+                if (this.second === 0 && this.minute === 0) {
                     this.changeState();
-                    nextTick(async() => {
-                        await this.getPomos().then(() => {
-                            if(this.statusBreak){
-                                this.updateData(this.task.Pomo, this.task.descricao, this.task.Qntd_pomos, this.task.Qntd_pomos_feitos + 1, this.task.id)
-                            }
-                        })
-                    })
+                    this.timersOut()
                 }
             }, 1000)
         },
-
-        async pomos(){
+        async timersOut(){
+            const audio = new Audio ("/audio/alarme.mp3"); 
+            audio.play();
+        },
+        async pomos() {
             const response = await this.search(this.selectedTask)
             return response;
         },
-        async getPomos(){
-            await this.pomos().then((response) => {this.task = response})
+        async getPomos() {
+            await this.pomos().then((response) => { this.task = response })
         },
-        start(){
+        start() {
             this.cronometer();
         },
-        pausar(){
+        pausar() {
             setTimeout(() => {
                 clearInterval(this.timer)
             }, 0)
         },
-        setMinute(minute){
+        setMinute(minute) {
             this.minute = minute * 60000
         },
-        setSecond(second){
+        setSecond(second) {
             this.second = second * 1000
         },
         statusCron() {
@@ -81,13 +78,20 @@ export default {
         },
         changeState() {
             this.statusBreak = !this.statusBreak;
-            if(this.statusBreak){
+            if (this.statusBreak) {
                 this.minute = this.minuteB;
                 this.second = this.secondB;
             } else {
                 this.minute = this.minuteP;
-                this.second = this.secondP;  
+                this.second = this.secondP;
             }
+            nextTick(async () => {
+                await this.getPomos().then(() => {
+                    if (this.statusBreak) {
+                        this.updateData(this.task.Pomo, this.task.descricao, this.task.Qntd_pomos, this.task.Qntd_pomos_feitos + 1, this.task.id)
+                    }
+                })
+            })
             this.statusTimer = !this.statusTimer;
             this.statusPomo = !this.statusPomo;
         },
@@ -95,25 +99,25 @@ export default {
     watch: {
         statusTimer() {
             if (this.statusTimer) {
-                if(this.timeInSeconds > 1000) this.timeInSeconds /= 60000
+                if (this.timeInSeconds > 1000) this.timeInSeconds /= 60000
                 this.cronometer(this.timeInSeconds)
             } else {
                 this.pausar()
             }
         },
-        minuteP(){
-            if(!this.statusBreak) this.minute = this.minuteP;  
+        minuteP() {
+            if (!this.statusBreak) this.minute = this.minuteP;
         },
-        secondP(){
-            if(!this.statusBreak) this.second = this.secondP;
+        secondP() {
+            if (!this.statusBreak) this.second = this.secondP;
         },
-        minuteB(){
-           if (this.statusBreak) this.minute = this.minuteB;  
+        minuteB() {
+            if (this.statusBreak) this.minute = this.minuteB;
         },
-        secondB(){
-           if (this.statusBreak) this.second = this.secondB;
+        secondB() {
+            if (this.statusBreak) this.second = this.secondB;
         },
-        
+
 
     }
 }
@@ -121,7 +125,7 @@ export default {
 <template>
     <section class="pomodoro-timer">
         <div class="title">
-            <h2 >{{!this.statusBreak ? 'POMODORO' : 'BREAK'}}</h2>
+            <h2>{{ !this.statusBreak ? 'POMODORO' : 'BREAK' }}</h2>
         </div>
         <div class="timer-manager">
             <div class="timer">

@@ -59,7 +59,7 @@ export default {
 </script>
 
 <template>
-  <div @click="exitClick" class="teste">
+  <div @click="exitClick" class="pomodoro">
     <Header @changeOptions="changeOptions"/>
     <HomePage />
     <div v-if="showOptions" ref="opcoes">
@@ -71,5 +71,8 @@ export default {
 </template>
 
 <style>
-
+.pomodoro {
+  max-width: 1420px;
+  margin: 0 auto;
+}
 </style>
