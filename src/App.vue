@@ -1,7 +1,6 @@
 <script>
 import { timers } from './store/store';
 import { toRefs } from 'vue';
-import InputTask from './components/InputTask.vue';
 import Header from './components/Header.vue';
 import HomePage from './components/HomePage.vue';
 import Options from './components/Options.vue';
@@ -10,14 +9,13 @@ export default {
         const timer = timers();
         const {statusTimer} = toRefs(timer)
         return {
-            statusTimer
+            statusTimer,
         }
   },
   components: {
     Header,
     HomePage,
     Options,
-    InputTask
   },
   data (){
     return {
@@ -33,6 +31,17 @@ export default {
       } else {
         !this.showOptions ? this.showOptions = true : this.showOptions = false;
         this.statusTimer = !this.statusTimer;
+      }
+    },
+    
+    exitClick(e) {
+      const externClick = this.$refs.opcoes;
+      try {
+        if (this.showOptions && !externClick.contains(e.target) && e.target.className !== 'opcao'){
+          this.changeOptions();
+        }
+      } catch(e){
+
       }
     }
   },
@@ -50,13 +59,12 @@ export default {
 </script>
 
 <template>
-  <div class="teste">
+  <div @click="exitClick" class="teste">
     <Header @changeOptions="changeOptions"/>
     <HomePage />
-    <div v-if="showOptions" class="options">
-      <Options @changeOptions="changeOptions" />
+    <div v-if="showOptions" ref="opcoes">
+      <Options @changeOptions="changeOptions" /> 
     </div>
-    <InputTask/>
   </div>
   
 

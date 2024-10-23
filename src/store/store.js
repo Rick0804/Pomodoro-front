@@ -2,11 +2,12 @@ import { defineStore } from "pinia";
 
 export const timers = defineStore('timers', {
     state: () => ({
-        minuteP: 30,
-        secondP: 0,
+        minuteP: 0,
+        secondP: 1,
         minuteB: 10,
         secondB: 0,
         statusTimer: false,
+        
 
     }),
     actions: {
@@ -21,6 +22,7 @@ export const timers = defineStore('timers', {
         },
         setSecondB(value){
             this.secondB = value
-        }
-    }
+        },
+        
+    },
 })

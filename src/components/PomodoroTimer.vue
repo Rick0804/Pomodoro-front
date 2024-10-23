@@ -1,17 +1,24 @@
 <script>
-import { toRefs } from 'vue';
+import { nextTick, toRefs } from 'vue';
 import { timers } from '../store/store.js';
+import { api } from '@/store/api.js';
 export default {
    nome: 'PomodoroTimer',
    setup(){
         const timer = timers();
+        const getApi = api();
+        const {updateData, selectedTask, search} = toRefs(getApi);
         const {secondP, minuteP, minuteB, secondB, statusTimer} = toRefs(timer)
         return {
             secondP,
             minuteP,
             secondB,
             minuteB,
-            statusTimer
+            statusTimer,
+            updateData,
+            selectedTask,
+            donePomo: null,
+            search
         }
     },
     data() {
@@ -24,10 +31,6 @@ export default {
             second: this.secondP,
             timer: null,
         }
-        /*
-            criar uma função única para o modo de descanço,
-            o modo de descanço vai ser acionado quando o timer do pomo atingir zero ou ser pulado
-        */
     },
     methods: {
         cronometer() {
@@ -39,9 +42,27 @@ export default {
                 this.minute = time.getMinutes();
                 this.second = time.getSeconds();
                 if(this.second === 0 && this.minute === 0){
-                    this.changeState()
+                    this.changeState();
+                    nextTick(async() => {
+                        await this.getPomos().then(() => {
+                            if(this.statusBreak){
+                                this.updateData(this.task.Pomo, this.task.descricao, this.task.Qntd_pomos, this.task.Qntd_pomos_feitos + 1, this.task.id)
+                            }
+                        })
+                    })
                 }
             }, 1000)
+        },
+
+        async pomos(){
+            const response = await this.search(this.selectedTask)
+            return response;
+        },
+        async getPomos(){
+            await this.pomos().then((response) => {this.task = response})
+        },
+        start(){
+            this.cronometer();
         },
         pausar(){
             setTimeout(() => {

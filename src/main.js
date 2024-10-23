@@ -1,10 +1,10 @@
 import './assets/style/reset.css'
-import { timers } from './store/store.js';
+import { timers } from './store/store.js'
 import { createApp } from 'vue'
 import { createPinia } from 'pinia'
 import App from './App.vue'
 
-const pinia = createPinia();
+const pinia = createPinia()
 const app = createApp(App)
 app.use(pinia)
 app.mount("#app")
