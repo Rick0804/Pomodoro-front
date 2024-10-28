@@ -34,20 +34,27 @@ export default {
     },
     methods: {
         cronometer() {
-            this.timeInMilliSeconds = (this.minute * 60000) + (this.second * 1000)
-            this.timer = setInterval(() => {
-                this.timeInMilliSeconds -= 1000
-                let time = new Date(this.timeInMilliSeconds);
-                this.minute = time.getMinutes();
-                this.second = time.getSeconds();
-                if (this.second === 0 && this.minute === 0) {
-                    this.changeState();
-                    this.timersOut()
+            worker = new Worker('PomodoroTimerWorker.js');
+            console.log("entrou")
+            worker.onmessage = (event) => {
+                if (event.data === 'time-up') {
+                    this.changeState(); // Chama seu método quando o tempo acaba
+                    this.timersOut(); // Chama seu método para lidar com o tempo esgotado
+                } else {
+                    this.timeInMilliSeconds = event.data; // Atualiza o tempo restante
+                    let time = new Date(this.timeInMilliSeconds);
+                    this.minute = time.getMinutes();
+                    this.second = time.getSeconds();
+                    // Aqui você pode atualizar a interface se necessário
                 }
-            }, 1000)
+            };
+
+            // Inicia o Worker com a ação de 'start' e a duração total
+            worker.postMessage({ action: 'start', duration: this.timeInMilliSeconds });
+
         },
-        async timersOut(){
-            const audio = new Audio ("/audio/alarme.mp3"); 
+        async timersOut() {
+            const audio = new Audio("/audio/alarme.mp3");
             audio.play();
         },
         async pomos() {
@@ -99,10 +106,10 @@ export default {
         statusTimer() {
             if (this.statusTimer) {
                 if (this.timeInMilliSeconds
- > 1000) this.timeInMilliSeconds
- /= 60000
+                    > 1000) this.timeInMilliSeconds
+                        /= 60000
                 this.cronometer(this.timeInMilliSeconds
-    
+
                 )
             } else {
                 this.pausar()
