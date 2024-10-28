@@ -23,32 +23,37 @@ export default {
     },
     data() {
         return {
-            timeInSeconds: 0,
+            timeInMilliSeconds: 0,
             statusTimer: false,
             statusPomo: false,
             statusBreak: false,
             minute: this.minuteP,
             second: this.secondP,
             timer: null,
+            worker: null
         }
     },
     methods: {
         cronometer() {
-            this.timeInSeconds = (this.minute * 60000) + (this.second * 1000)
-            this.timer = setInterval(() => {
-                console.log(this.timeInSeconds)
-                this.timeInSeconds -= 1000
-                let time = new Date(this.timeInSeconds);
-                this.minute = time.getMinutes();
-                this.second = time.getSeconds();
-                if (this.second === 0 && this.minute === 0) {
+            this.worker = new Worker(new URL('./PomodoroTimerWorker.js', import.meta.url));
+            console.log("entrou")
+            this.worker.onmessage = (event) => {
+                if (event.data === 'time-up') {
                     this.changeState();
-                    this.timersOut()
+                    this.timersOut(); 
+                } else {
+                    this.timeInMilliSeconds = event.data; 
+                    let time = new Date(this.timeInMilliSeconds);
+                    this.minute = time.getMinutes();
+                    this.second = time.getSeconds();
                 }
-            }, 1000)
+            };
+            this.timeInMilliSeconds = (this.minute * 60000) + (this.second * 1000)
+            this.worker.postMessage({ action: 'start', duration: this.timeInMilliSeconds });
+
         },
-        async timersOut(){
-            const audio = new Audio ("/audio/alarme.mp3"); 
+        async timersOut() {
+            const audio = new Audio("/audio/alarme.mp3");
             audio.play();
         },
         async pomos() {
@@ -99,8 +104,12 @@ export default {
     watch: {
         statusTimer() {
             if (this.statusTimer) {
-                if (this.timeInSeconds > 1000) this.timeInSeconds /= 60000
-                this.cronometer(this.timeInSeconds)
+                if (this.timeInMilliSeconds
+                    > 1000) this.timeInMilliSeconds
+                        /= 60000
+                this.cronometer(this.timeInMilliSeconds
+
+                )
             } else {
                 this.pausar()
             }
