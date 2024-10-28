@@ -30,6 +30,7 @@ export default {
             minute: this.minuteP,
             second: this.secondP,
             timer: null,
+            worker: null
         }
     },
     methods: {
