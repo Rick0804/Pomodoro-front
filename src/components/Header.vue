@@ -23,8 +23,6 @@ export default {
             <h1>Pomodoro</h1>
             <nav>
                 <button @click="this.$emit('changeOptions')" class="opcao">Opções</button>
-                <button class="opcao">Notas</button>
-                
             </nav>
         </div>
     </header>

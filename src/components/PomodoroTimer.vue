@@ -35,23 +35,21 @@ export default {
     },
     methods: {
         cronometer() {
-            worker = new Worker('PomodoroTimerWorker.js');
+            this.worker = new Worker(new URL('./PomodoroTimerWorker.js', import.meta.url));
             console.log("entrou")
-            worker.onmessage = (event) => {
+            this.worker.onmessage = (event) => {
                 if (event.data === 'time-up') {
-                    this.changeState(); // Chama seu método quando o tempo acaba
-                    this.timersOut(); // Chama seu método para lidar com o tempo esgotado
+                    this.changeState();
+                    this.timersOut(); 
                 } else {
-                    this.timeInMilliSeconds = event.data; // Atualiza o tempo restante
+                    this.timeInMilliSeconds = event.data; 
                     let time = new Date(this.timeInMilliSeconds);
                     this.minute = time.getMinutes();
                     this.second = time.getSeconds();
-                    // Aqui você pode atualizar a interface se necessário
                 }
             };
-
-            // Inicia o Worker com a ação de 'start' e a duração total
-            worker.postMessage({ action: 'start', duration: this.timeInMilliSeconds });
+            this.timeInMilliSeconds = (this.minute * 60000) + (this.second * 1000)
+            this.worker.postMessage({ action: 'start', duration: this.timeInMilliSeconds });
 
         },
         async timersOut() {
