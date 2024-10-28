@@ -23,7 +23,7 @@ export default {
     },
     data() {
         return {
-            timeInSeconds: 0,
+            timeInMilliSeconds: 0,
             statusTimer: false,
             statusPomo: false,
             statusBreak: false,
@@ -34,11 +34,10 @@ export default {
     },
     methods: {
         cronometer() {
-            this.timeInSeconds = (this.minute * 60000) + (this.second * 1000)
+            this.timeInMilliSeconds = (this.minute * 60000) + (this.second * 1000)
             this.timer = setInterval(() => {
-                console.log(this.timeInSeconds)
-                this.timeInSeconds -= 1000
-                let time = new Date(this.timeInSeconds);
+                this.timeInMilliSeconds -= 1000
+                let time = new Date(this.timeInMilliSeconds);
                 this.minute = time.getMinutes();
                 this.second = time.getSeconds();
                 if (this.second === 0 && this.minute === 0) {
@@ -99,8 +98,12 @@ export default {
     watch: {
         statusTimer() {
             if (this.statusTimer) {
-                if (this.timeInSeconds > 1000) this.timeInSeconds /= 60000
-                this.cronometer(this.timeInSeconds)
+                if (this.timeInMilliSeconds
+ > 1000) this.timeInMilliSeconds
+ /= 60000
+                this.cronometer(this.timeInMilliSeconds
+    
+                )
             } else {
                 this.pausar()
             }
