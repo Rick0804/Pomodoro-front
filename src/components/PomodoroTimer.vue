@@ -30,14 +30,13 @@ export default {
             minute: this.minuteP,
             second: this.secondP,
             timer: null,
-            worker: null
+            worker: new Worker(new URL('./PomodoroTimerWorker.js', import.meta.url))
         }
     },
     methods: {
         cronometer() {
-            this.worker = new Worker(new URL('./PomodoroTimerWorker.js', import.meta.url));
             this.timeInMilliSeconds = ((this.minute * 60000) + (this.second * 1000)) - 1000
-            this.worker.postMessage({ action: 'start', duration: this.timeInMilliSeconds - 1000 });
+            this.worker.postMessage({ action: 'start', duration: this.timeInMilliSeconds}); //mudou aqui
             this.worker.onmessage = (event) => {
                 if (event.data === 'time-up') {
                     this.changeState();

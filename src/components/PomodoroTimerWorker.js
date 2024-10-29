@@ -2,8 +2,9 @@
 let timer;
 onmessage = (e) => {
     let {action, duration} = e.data;
-    if(action == 'start'){
-        this.timer = setInterval(() => {
+    if(action === 'start'){
+        console.log('start')
+        timer = setInterval(() => {
             duration -= 1000;
             self.postMessage(duration);
             if(duration <= 0) {
@@ -11,8 +12,9 @@ onmessage = (e) => {
                 self.postMessage('time-up');
             }
         }, 1000)
-    } else if(action == 'stop'){
-        clearInterval(this.timer)
+    } else if(action === 'stop'){
+        console.log('parou')
+        clearInterval(timer)
         self.postMessage(duration)
     }
 
