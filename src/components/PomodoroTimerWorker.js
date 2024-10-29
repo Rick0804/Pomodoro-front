@@ -1,11 +1,9 @@
-let timer;
 
+let timer;
 onmessage = (e) => {
     let {action, duration} = e.data;
     if(action == 'start'){
-        
-        timer = setInterval(() => {
-            console.log(duration)
+        this.timer = setInterval(() => {
             duration -= 1000;
             self.postMessage(duration);
             if(duration <= 0) {
@@ -14,7 +12,8 @@ onmessage = (e) => {
             }
         }, 1000)
     } else if(action == 'stop'){
-        clearInterval(timer)
+        clearInterval(this.timer)
+        self.postMessage(duration)
     }
 
 }

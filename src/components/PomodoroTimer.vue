@@ -36,20 +36,19 @@ export default {
     methods: {
         cronometer() {
             this.worker = new Worker(new URL('./PomodoroTimerWorker.js', import.meta.url));
-            console.log("entrou")
+            this.timeInMilliSeconds = ((this.minute * 60000) + (this.second * 1000)) - 1000
+            this.worker.postMessage({ action: 'start', duration: this.timeInMilliSeconds - 1000 });
             this.worker.onmessage = (event) => {
                 if (event.data === 'time-up') {
                     this.changeState();
                     this.timersOut(); 
                 } else {
-                    this.timeInMilliSeconds = event.data; 
                     let time = new Date(this.timeInMilliSeconds);
+                    this.timeInMilliSeconds = event.data; 
                     this.minute = time.getMinutes();
                     this.second = time.getSeconds();
                 }
             };
-            this.timeInMilliSeconds = (this.minute * 60000) + (this.second * 1000)
-            this.worker.postMessage({ action: 'start', duration: this.timeInMilliSeconds });
 
         },
         async timersOut() {
@@ -67,9 +66,7 @@ export default {
             this.cronometer();
         },
         pausar() {
-            setTimeout(() => {
-                clearInterval(this.timer)
-            }, 0)
+            this.worker.postMessage({action: 'stop'})
         },
         setMinute(minute) {
             this.minute = minute * 60000
@@ -97,6 +94,8 @@ export default {
                     }
                 })
             })
+            this.timeInMilliSeconds = (this.minute * 60000) + (this.second * 1000)
+
             this.statusTimer = !this.statusTimer;
             this.statusPomo = !this.statusPomo;
         },
