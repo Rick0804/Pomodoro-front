@@ -73,6 +73,7 @@ export default {
 .title {
     color: white;
     text-align: right;
+    font-size: 25px;
 }
 
 .completed {
@@ -94,8 +95,8 @@ export default {
 
 .lists {
     background-color: white;
-    width: 255px;
-    height: 294px;
+    width: 351px;
+    height: 375px;
     border-radius: 20px;
     overflow-y: auto;
 }
@@ -114,7 +115,8 @@ export default {
     background: white;
     border-radius: 20px;
     color: #1B1A1A;
-    padding: 5px 10px;
+    padding: 8px 32px;
+    font-size: 20px;
     text-align: center;
     display: flex;
     justify-content: center;
