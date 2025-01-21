@@ -54,9 +54,9 @@ nav {
 
 .opcao {
     background: #D9D9D9;
-    border-radius: 20px;
-    padding: 8px 15px;
-    font-size: 20px;
+    border-radius: 40px;
+    padding: 7px 16px;
+    font-size: 30px;
     color: #1B1A1A;
     border: none;
     cursor: pointer;
@@ -64,7 +64,7 @@ nav {
 }
 
 h1 {
-    font-size: 50px;
+    font-size: 60px;
     font-weight: 400;
     color: white;
 }

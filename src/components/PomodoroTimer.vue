@@ -154,14 +154,14 @@ export default {
 <style scoped>
 .pomodoro-timer {
     background-color: white;
-    width: 638px;
-    height: 345px;
+    width: 830px;
+    min-height: 430px;
     border-radius: 20px;
     display: flex;
     flex-direction: column;
     align-items: center;
     margin-top: 44px;
-
+    justify-content: center;
 }
 
 .title {
@@ -184,7 +184,7 @@ export default {
 }
 
 .timer p {
-    font-size: 120px;
+    font-size: 172px;
     font-weight: 500;
     line-height: 1;
     margin-bottom: 33px;
@@ -192,6 +192,7 @@ export default {
 
 h2 {
     color: white;
+    font-size: 46px;
 }
 
 button {
@@ -200,5 +201,10 @@ button {
     border-radius: 20px;
     color: white;
     padding: 5px 30px;
+}
+
+.status-timer button { 
+    padding: 14px 40px;
+    font-size: 20px;
 }
 </style>

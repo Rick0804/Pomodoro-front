@@ -72,7 +72,6 @@ export default {
 
 <style>
 .pomodoro {
-  max-width: 1420px;
   margin: 0 auto;
 }
 </style>

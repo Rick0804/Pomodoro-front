@@ -52,9 +52,6 @@ export default {
 </template>
 <style scoped>
 
-    form {
-       gap: 10px;
-    }
     .exit {
         width: fit-content;
         background-color: transparent;
@@ -64,11 +61,16 @@ export default {
     form {
         display: flex;
         flex-direction: column;
+        gap: 26px;
+        margin: 0 auto;
+
+
     }
     .class-form {
         padding: 20px;
         right: 26px;
-        width: fit-content;
+        height: 400px;
+        width: 300px;
         border-radius: 4px;
         display: flex;
         background-color: #ececec;
